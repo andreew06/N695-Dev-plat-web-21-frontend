@@ -1,0 +1,237 @@
+Para enviar variáveis de uma página para outra com JavaScript, existem várias abordagens que você pode adotar. Aqui estão algumas das mais comuns:
+
+1. **Query Strings**: Passar variáveis na URL.
+2. **Local Storage ou Session Storage**: Armazenar dados no armazenamento do navegador.
+3. **Cookies**: Usar cookies para armazenar dados.
+4. **POST Data**: Enviar dados através de um formulário usando o método POST.
+
+Vou detalhar cada uma dessas abordagens.
+
+### 1. Query Strings
+
+Você pode adicionar variáveis à URL da página de destino como parâmetros de consulta (query strings). Na página de origem, você constrói a URL com os parâmetros e redireciona para a página de destino. Na página de destino, você recupera esses parâmetros.
+
+#### Página de Origem
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Origem</title>
+</head>
+<body>
+  <button onclick="redirectToDestination()">Ir para Página de Destino</button>
+
+  <script>
+    function redirectToDestination() {
+      var name = "João";
+      var age = 25;
+      var url = `destination.html?name=${encodeURIComponent(name)}&age=${age}`;
+      window.location.href = url;
+    }
+  </script>
+</body>
+</html>
+```
+
+#### Página de Destino
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Destino</title>
+</head>
+<body>
+  <h1>Página de Destino</h1>
+  <div id="output"></div>
+
+  <script>
+    function getQueryParams() {
+      var params = {};
+      var queryString = window.location.search.substring(1);
+      var queryArray = queryString.split("&");
+
+      queryArray.forEach(function(param) {
+        var pair = param.split("=");
+        params[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+      });
+
+      return params;
+    }
+
+    var params = getQueryParams();
+    document.getElementById('output').innerText = `Nome: ${params.name}, Idade: ${params.age}`;
+  </script>
+</body>
+</html>
+```
+
+### 2. Local Storage ou Session Storage
+
+Você pode usar o `localStorage` ou `sessionStorage` para armazenar dados no navegador. Os dados armazenados no `localStorage` persistem entre sessões, enquanto os dados no `sessionStorage` são limpos quando a página é fechada.
+
+#### Página de Origem
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Origem</title>
+</head>
+<body>
+  <button onclick="storeDataAndRedirect()">Ir para Página de Destino</button>
+
+  <script>
+    function storeDataAndRedirect() {
+      var name = "João";
+      var age = 25;
+      localStorage.setItem('name', name);
+      localStorage.setItem('age', age);
+      window.location.href = 'destination.html';
+    }
+  </script>
+</body>
+</html>
+```
+
+#### Página de Destino
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Destino</title>
+</head>
+<body>
+  <h1>Página de Destino</h1>
+  <div id="output"></div>
+
+  <script>
+    var name = localStorage.getItem('name');
+    var age = localStorage.getItem('age');
+    document.getElementById('output').innerText = `Nome: ${name}, Idade: ${age}`;
+  </script>
+</body>
+</html>
+```
+
+### 3. Cookies
+
+Você pode usar cookies para armazenar dados que precisam ser acessíveis entre diferentes páginas ou sessões.
+
+#### Página de Origem
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Origem</title>
+</head>
+<body>
+  <button onclick="setCookiesAndRedirect()">Ir para Página de Destino</button>
+
+  <script>
+    function setCookiesAndRedirect() {
+      document.cookie = "name=João; path=/";
+      document.cookie = "age=25; path=/";
+      window.location.href = 'destination.html';
+    }
+  </script>
+</body>
+</html>
+```
+
+#### Página de Destino
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Destino</title>
+</head>
+<body>
+  <h1>Página de Destino</h1>
+  <div id="output"></div>
+
+  <script>
+    function getCookie(name) {
+      var value = `; ${document.cookie}`;
+      var parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    var name = getCookie('name');
+    var age = getCookie('age');
+    document.getElementById('output').innerText = `Nome: ${name}, Idade: ${age}`;
+  </script>
+</body>
+</html>
+```
+
+### 4. POST Data
+
+Se você precisa enviar dados mais sensíveis ou mais complexos, pode fazer isso via um formulário POST. Isso geralmente é feito com um formulário HTML e pode ser processado em JavaScript ou em um backend.
+
+#### Página de Origem
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Origem</title>
+</head>
+<body>
+  <form id="dataForm" action="destination.html" method="post">
+    <input type="hidden" name="name" value="João">
+    <input type="hidden" name="age" value="25">
+    <button type="submit">Ir para Página de Destino</button>
+  </form>
+</body>
+</html>
+```
+
+#### Página de Destino
+
+A página de destino precisa de um backend para processar os dados POST, ou você pode usar JavaScript para processá-los.
+
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de Destino</title>
+</head>
+<body>
+  <h1>Página de Destino</h1>
+  <div id="output"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var params = new URLSearchParams(window.location.search);
+      var name = params.get('name');
+      var age = params.get('age');
+      document.getElementById('output').innerText = `Nome: ${name}, Idade: ${age}`;
+    });
+  </script>
+</body>
+</html>
+```
+
+
+Para este último método funcionar corretamente com apenas HTML e JavaScript, você pode precisar de um backend para processar dados POST. Normalmente, o formulário POST é processado pelo servidor, que então redireciona ou responde com os dados apropriados.
