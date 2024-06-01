@@ -20,20 +20,23 @@
       <div class="d-flex justify-content-center align-items-center full-height">
         <div class="p-5 border bg-light col-md-6">
           <h2 class="text-center mt-5">Cadastro</h2>
-          <form action="gestao.html" method="post" id="form-login>
+          <form action="index.html" method="post" id="form-login">
             <div class="mb-3">
               <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="name" placeholder="Digite seu nome" required>
+              <input type="text" class="form-control" id="name" placeholder="Seu nome aqui" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">E-mail</label>
-              <input type="email" class="form-control" id="email" placeholder="Digite seu e-mail" required>
+              <input type="email" class="form-control" id="email" placeholder="exemplo@exemplo.com" required>
             </div>
             <div class="mb-3">
               <label for="senha" class="form-label">Senha</label>
               <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required>
             </div>
-            <div class="d-grid">
+            <div class="md-3">
+              <input type="checkbox" value="aceito" required> <span>Ao se cadastrar você concorda com os <a href="#">termos de uso</a> desta plataforma</span>
+            </div>
+            <div class="d-grid mt-2">
               <button type="submit" class="btn btn-primary">Cadastrar</button>
             </div>
           </form>
