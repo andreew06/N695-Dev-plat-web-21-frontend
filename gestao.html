@@ -8,13 +8,35 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
   <style>
-    html, body {
-      height: 100%;
-      background-color: azure;
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+    h1{
+      font-family: "Roboto", sans-serif;
+      font-weight: 300;
+      font-style: normal;
     }
-    .full-height {
-      height: 100vh;
+    h5{
+      font-family: "Roboto", sans-serif;
+      font-weight: 500;
+      font-style: normal;
     }
+    p{
+      font-family: "Roboto", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    section{
+      background-color: #f0ffff;
+    }
+   .bg-dark-azure{
+      background-color: #d3f1f1;
+    }
+    @media screen {
+      #menu-responsivo{
+
+      }
+    }
+    
   </style>
 </head>
 <body>
@@ -60,7 +82,7 @@
 
     <div class="container mt-4 full-height">
         <h1 class="text-center mb-4">Exibindo clientes</h1>
-        <button onclick="alterar_texto()">Refresh</button>
+        <button id="refresh" class="btn btn-primary">Atualizar</button>
         <div class="d-flex justify-content-center col-md-12">
         <table class="table">
             <thead>
@@ -68,17 +90,18 @@
                     <th scope="col" class="">ID</td>
                     <th scope="col" class="">Nome</td>
                     <th scope="col" class="">Email</td>
-                    <th scope="col" class=""> <!--ícone editar--></td>
-                    <th scope="col" class=""> <!--ícone excluir--></td>
+                    <th scope="col" class=""> <!--ícone de editar--></td>
+                    <th scope="col" class=""> <!--ícone de excluir--></td>
                 </tr>
                 </thead>
-                <tbody id="body_table">
-                    <tr>
-                        <td scope="row" id="campo-id">a</td>
-                        <td scope="row" id="campo-nome">b</td>
-                        <td scope="row" id="campo-email">c</td>
-                        <td><a href="#"><i class="bi bi-pencil-fill"></i></a></td>
-                        <td><a href="#"><i class="bi bi-trash3-fill"></i></a></td>
+                <tbody id="data-table-body">
+                   <!-- os dados serão atualizados aqui pelo javascript -->
+                <tr>
+                        <td scope="row" id="campo-id">Carregando...</td>
+                        <td scope="row" id="campo-nome">Carregando...</td>
+                        <td scope="row" id="campo-email">Carregando...</td>
+                        <td scope="row"><a href="#"><i class="bi bi-pencil-fill"></i></a></td>
+                        <td scope="row"><a href="#"><i class="bi bi-trash3-fill"></i></a></td>
                     </tr>
                 </tbody>
             </table>
@@ -90,41 +113,98 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   <script>
+    /*botão do menu na versão mobile*/
+    document.addEventListener('DOMContentLoaded', function () {
+      var navbarToggler = document.querySelector('.navbar-toggler');
+      var navbarCollapse = document.querySelector('#navbarNav');
 
-    document.addEventListener("DOMContentLoaded", function(){
-      fetch('')
+      navbarToggler.addEventListener('click', function () {
+        navbarCollapse.classList.toggle('show');
+      });
+    });
+
+
+    /*método get para exibição de usuários cadastrados*/
+    document.addEventListener('DOMContentLoaded', function(){
+      buscardados();
+    });
+
+    function buscardados(){
+      fetch('https://pokeapi.co/api/v2/pokemon/charmander') // Substitua pela URL correta da sua API
+        .then(response => response.json())
+        .then(data => {
+          const abilities = data.abilities;
+          const tableBody = document.getElementById('data-table-body');
+          
+          tableBody.innerHTML = ''; // Limpa o conteúdo atual da tabela
+          
+          abilities.forEach(abilityInfo => {
+            const row = document.createElement('tr');
+
+            const idCell = document.createElement('td');
+            idCell.textContent = abilityInfo.ability.name;
+            row.appendChild(idCell);
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = abilityInfo.is_hidden ? 'Sim' : 'Não';
+            row.appendChild(nameCell);
+
+            const emailCell = document.createElement('td');
+            emailCell.textContent = abilityInfo.is_hidden ? 'Sim' : 'Não';
+            row.appendChild(emailCell);
+            
+            const editarCell = document.createElement('td');
+            editarCell.innerHTML = '<a id="editar" href="#"><i class="bi bi-pencil-fill"></i></a>';
+            row.appendChild(editarCell);
+
+            const excluirCell = document.createElement('td');
+            excluirCell.innerHTML = '<a id="excluir" href="#"><i class="bi bi-trash3-fill"></i></a>';
+            row.appendChild(excluirCell);
+
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(error => console.error('Erro ao buscar dados:', error));
+    }
+
+    /*Atualizar visualização*/
+
+    var refreshTabela = document.getElementById('refresh')
+
+    refreshTabela.addEventListener('click', function(){
+      refreshTabela.innerText = 'Atualizando...';
+      buscardados()
+      setTimeout(atualizarTexto, 500);
+
+        function atualizarTexto(){
+        refreshTabela.innerText = 'Atualizado!';
+
+        refreshTabela.classList.remove('btn-primary');
+        refreshTabela.classList.add('text-white');
+        refreshTabela.classList.add('bg-success');
+        
+        setTimeout(textoPadrao, 1000);
+
+          function textoPadrao(){
+            refreshTabela.classList.remove('bg-success');
+            refreshTabela.classList.remove('text-white');
+            refreshTabela.classList.add('btn-primary');
+            refreshTabela.innerText = 'Atualizar';
+          }
+      }
+    });
+
+    /*Editar usuário*/
+    var btn_editar = document.getElementById('editar');
+    var btn_excluir = document.getElementById('excluir');
+
+    btn_editar.addEventListener('click', function(){
+      
+    })
+    btn_excluir.addEventListener('click', function(){
+      btn_excluir.innerHTML = '<p>usuário excluido</p>';
     })
 
-
-
-
-   /* var id = document.getElementById("campo-id");
-    var nome = document.getElementById("campo-nome");
-    var email = document.getElementById("campo-email");
-    var alterar = false;
-
-
-
-    testando
-
-        function alterar_texto(){
-            alterar = !alterar;
-
-            if(alterar){
-            
-            id.innerHTML = "1";
-            nome.innerHTML = "Andrew";
-            email.innerHTML = "andrew@aluno.com";
-
-            console.log("alterado");
-        }else{
-            id.innerHTML = "a";
-            nome.innerHTML = "b";
-            email.innerHTML = "c";
-
-            console.log("Desfeito");
-        }
-        };*/
   </script>
 </body>
 </html>
