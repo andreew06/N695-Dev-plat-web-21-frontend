@@ -33,37 +33,66 @@
       <div class="d-flex justify-content-center align-items-center full-height">
         <div class="p-5 border bg-light col-md-6">
           <h2 class="text-center mt-5">Cadastro</h2>
-          <form action="index.html" method="post" id="form-login">
+
+          <form id="form-login">
             <div class="mb-3">
               <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="name" placeholder="Seu nome aqui" required>
+              <input type="text" class="form-control" id="createName" placeholder="Seu nome aqui" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">E-mail</label>
-              <input type="email" class="form-control" id="email" placeholder="exemplo@exemplo.com" required>
+              <input type="email" class="form-control" id="createEmail" placeholder="exemplo@exemplo.com" required>
             </div>
             <div class="mb-3">
               <label for="senha" class="form-label">Senha</label>
-              <input type="password" class="form-control" id="senha" placeholder="Digite sua senha" required>
+              <input type="password" class="form-control" id="createSenha" placeholder="Digite sua senha" required>
             </div>
             <div class="md-3">
               <input type="checkbox" value="aceito" required> <span>Ao se cadastrar você concorda com os <a href="#">termos de uso</a> desta plataforma</span>
             </div>
             <div class="d-grid mt-2">
-              <button type="submit" class="btn btn-primary">Cadastrar</button>
+              <button onclick="createUser()" class="">Cadastrar</button>
+              <h1 onclick="createUser()">Cadastraaar</h1>
             </div>
           </form>
+
           <br>
-          <a href="index.html"><button type="button" class="btn" style="width: 100%;">Já possui uma conta?</button></a>
+
+          <a href=""><button type="button" class="btn" style="width: 100%;">Já possui uma conta?</button></a>
         </div>
       </div>
     </div>
-
   </div>
   
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  </body>
+  
+    <script>
+      function createUser(){
+        const targetName = document.getElementById('createName').value;
+        const targetEmail = document.getElementById('createEmail').value;
+        const targetSenha = document.getElementById('createSenha').value;
+
+        const body = {
+          "name": targetName,
+          "email": targetEmail,
+          "password": targetSenha
+        }
+        console.log(body);
+
+        
+
+      fetch(`http://localhost:4000/v1/auth/register`,{
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: new Headers({
+            "Content-Type": "application/json",
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
+        })
+      })
+
+      }
+    </script>
 </body>
 </html>

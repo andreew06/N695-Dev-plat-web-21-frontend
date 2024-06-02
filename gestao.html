@@ -82,11 +82,12 @@
 
     <div class="container mt-4 full-height">
         <h1 class="text-center mb-4">Exibindo clientes</h1>
-        <button id="refresh" class="btn btn-primary">Atualizar</button>
+        <button onclick="atualizarTexto()" id="refresh" class="btn btn-primary">Atualizar</button>
         <div class="d-flex justify-content-center col-md-12">
         <table class="table">
             <thead>
                 <tr>
+                    <th scope="col" class="">Index</td>
                     <th scope="col" class="">ID</td>
                     <th scope="col" class="">Nome</td>
                     <th scope="col" class="">Email</td>
@@ -97,6 +98,7 @@
                 <tbody id="data-table-body">
                    <!-- os dados serão atualizados aqui pelo javascript -->
                 <tr>
+                        <td scope="row" id="campo-index">Carregando...</td>
                         <td scope="row" id="campo-id">Carregando...</td>
                         <td scope="row" id="campo-nome">Carregando...</td>
                         <td scope="row" id="campo-email">Carregando...</td>
@@ -105,9 +107,72 @@
                     </tr>
                 </tbody>
             </table>
+
+            <!--modal editar-->
+            <div class="modal fade" id="editmodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Editando</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="form-group">
+                        <label for="edit-form-id" class="col-form-label">ID</label>
+                        <input type="text" class="form-control" id="edit-form-id" readonly>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="edit-form-name" class="col-form-label">Nome</label>
+                        <input type="text" class="form-control" id="edit-form-name" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="edit-form-email" class="col-form-label">E-mail</label>
+                        <input type="text" class="form-control" id="edit-form-email" required>
+
+                      <div class="form-group">
+                        <label for="edit-form-pass" class="col-form-label">Senha</label>
+                        <input type="text" class="form-control" id="edit-form-pass" required>
+                      </div>
+
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editUser()">Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!--Modal excluir
+            <div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Deletar usuário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                  Tem certeza que deseja excluir este usuário?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Confirmar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
         </div>
     </div>
-  
+    
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -129,7 +194,7 @@
       buscardados();
     });
 
-    function buscardados(){
+    /*function buscardados(){
       fetch('https://pokeapi.co/api/v2/pokemon/charmander') // Substitua pela URL correta da sua API
         .then(response => response.json())
         .then(data => {
@@ -165,18 +230,65 @@
           });
         })
         .catch(error => console.error('Erro ao buscar dados:', error));
+    }*/
+
+    function buscardados(){
+      fetch('http://localhost:4000/v1/users/', {
+        headers: new Headers({
+        'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
+    }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          const users = data.items;
+
+          const tableBody = document.getElementById('data-table-body');
+          
+          tableBody.innerHTML = ''; // Limpa o conteúdo atual da tabela
+          
+          users.forEach((user, i) => {
+            const row = document.createElement('tr');
+
+            const index = document.createElement('td');
+            index.innerHTML = i+1;
+            row.appendChild(index);
+
+            const idCell = document.createElement('td');
+            idCell.textContent = user._id;
+            row.appendChild(idCell);
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = user.name;
+            row.appendChild(nameCell);
+
+            const emailCell = document.createElement('td');
+            emailCell.textContent = user.email;
+            row.appendChild(emailCell);
+
+            const editarCell = document.createElement('td');
+            editarCell.innerHTML = `<button id="btn_editar_${i}" onclick="fillEditModal(this.id)" type="button" class="btn" data-toggle="modal" data-target="#editmodel" data-whatever="@mdo"><i class="bi bi-pencil-fill"></i></button>`;
+            row.appendChild(editarCell);
+
+            const excluirCell = document.createElement('td');
+            excluirCell.innerHTML = `<button id="btn_excluir_${i}" onclick="deleteUser(this.id)" type="button" class="btn" data-toggle="modal" data-target="#deletemodel"><i class="bi bi-trash3-fill"></i></button>`;
+            row.appendChild(excluirCell);
+
+            tableBody.appendChild(row);
+          });
+        })
+        .catch(error => console.error('Erro ao buscar dados:', error));
     }
 
     /*Atualizar visualização*/
 
     var refreshTabela = document.getElementById('refresh')
 
-    refreshTabela.addEventListener('click', function(){
+    function atualizarTexto(){
       refreshTabela.innerText = 'Atualizando...';
       buscardados()
-      setTimeout(atualizarTexto, 500);
+      setTimeout(atualizarTexto1, 500);
 
-        function atualizarTexto(){
+        function atualizarTexto1(){
         refreshTabela.innerText = 'Atualizado!';
 
         refreshTabela.classList.remove('btn-primary');
@@ -192,19 +304,82 @@
             refreshTabela.innerText = 'Atualizar';
           }
       }
-    });
+    }
 
     /*Editar usuário*/
     var btn_editar = document.getElementById('editar');
     var btn_excluir = document.getElementById('excluir');
 
-    btn_editar.addEventListener('click', function(){
-      
-    })
-    btn_excluir.addEventListener('click', function(){
-      btn_excluir.innerHTML = '<p>usuário excluido</p>';
-    })
+    var id 
 
+    function fillEditModal(id){
+      const linhaAlvo = document.getElementById(id).parentElement.parentElement;
+      const targetid = linhaAlvo.children[1].innerHTML
+      const targetname = linhaAlvo.children[2].innerHTML
+      const targetemail = linhaAlvo.children[3].innerHTML
+      
+      document.getElementById('edit-form-id').value = targetid;
+      document.getElementById('edit-form-name').value = targetname;
+      document.getElementById('edit-form-email').value = targetemail;
+    }
+
+    function editUser(){
+
+      const targetid = document.getElementById('edit-form-id').value
+      const targetname = document.getElementById('edit-form-name').value
+      const targetemail = document.getElementById('edit-form-email').value
+      const targetpass = document.getElementById('edit-form-pass').value
+      
+      const body = {
+          "name": targetname,
+          "email": targetemail,
+          "password": targetpass
+        }
+        console.log(body);
+
+        
+
+      fetch(`http://localhost:4000/v1/users/${targetid}`,{
+        method: "PATCH",
+        body: JSON.stringify(body),
+        headers: new Headers({
+            "Content-Type": "application/json",
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
+        })
+      }).finally(()=> {
+        atualizarTexto();
+      });
+      }
+
+
+      /*fetch('', {
+        method: 'POST',
+        body:{
+          email: string,
+      		password: string
+        }
+      })*/
+
+
+   /* btn_excluir.addEventListener('click', function(){
+      btn_excluir.innerHTML = '<p>usuário excluido</p>';
+    })*/
+    function deleteUser(id){
+      const mostrar = document.getElementById(id).parentElement.parentElement;
+
+      const targetid = mostrar.children[1].innerHTML
+      console.log(targetid);
+      fetch(`http://localhost:4000/v1/users/${targetid}`, {
+        headers: new Headers({
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
+        }),
+        method: 'DELETE'
+      })
+      
+      atualizarTexto();
+    }
+    
+    
   </script>
 </body>
 </html>
