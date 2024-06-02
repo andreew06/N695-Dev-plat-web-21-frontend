@@ -44,13 +44,15 @@
             <div class="mb-3">
               <label for="loginSenha" class="form-label">Senha</label>
               <input type="password" class="form-control" id="loginSenha" placeholder="Digite sua senha" required>
+              <p class="text-danger text-center" id="aviso"></p>
             </div>
             <div class="d-grid">
-              <button onclick="logarUser()" class="btn btn-primary">Entrar</button>
+              <!--<button onclick="loginUser()" class="btn btn-primary">Entrar</button>-->
+              <p onclick="loginUser()" class="btn btn-primary">Entrar</p>
             </div>
           </form>
           <br>
-          <a href="cadastro.html"><button type="button" class="btn" style="width: 100%; text-decoration: underline;">Não tem uma conta?</button></a>
+          <a href="cadastro.html"><button type="button" class="btn" style="width: 100%;">Não possui uma conta?</button></a>
         </div>
       </div>
     </div>
@@ -61,17 +63,78 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
   <script>
-    function loginUser(){
-        const targetEmail = document.getElementById('loginEmail').value;
-        const targetSenha = document.getElementById('loginSenha').value;
 
-        const body = {
-          "email": targetEmail,
-          "password": targetSenha
+    function acionarAviso(){
+      var aviso_login = document.getElementById('aviso');
+      aviso_login.innerHTML = 'Cheque se suas credenciais estão corretas';
+      function liberarAviso(){
+        aviso_login.innerHTML = '';
+      }
+      setTimeout(liberarAviso,5000);
+
+    }
+    
+
+    function setCookie(name, value, days) {
+      let expires = "";
+      if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "")  + expires + "; path=/; Secure; SameSite=Strict";
+      }
+
+    //função de login2
+    async function loginUser() {
+  
+      const targetEmail = document.getElementById('loginEmail').value;
+      const targetSenha = document.getElementById('loginSenha').value;
+
+      const body = {
+        "email": targetEmail,
+        "password": targetSenha
+      }
+
+      try {
+        const response = await fetch('http://localhost:4000/v1/auth/login', {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: new Headers({
+            "Content-Type": "application/json",
+            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro na resposta da rede');
         }
-        console.log(body);
 
+        const data = await response.json();
+        const tokenUsuario = data.items[0].token;
+
+        setCookie('authToken', tokenUsuario, 7);
+
+        window.location.replace('landingpage.html');
+      } catch (error) {
+          console.error('Erro ao fazer login:', error);
+          acionarAviso();
         
+      }
+}
+
+    /* função de login1
+    function loginUser(){
+      event.preventDefault();
+      const targetEmail = document.getElementById('loginEmail').value;
+      const targetSenha = document.getElementById('loginSenha').value;
+
+      let tokenUsuario
+
+      const body = {
+        "email": targetEmail,
+        "password": targetSenha
+      }
 
       fetch(`http://localhost:4000/v1/auth/login`,{
         method: "POST",
@@ -83,9 +146,30 @@
       })
       .then(response => response.json())
       .then(data => {
-        const token = data.items[0].token;
+        tokenUsuario = data.items[0].token;
       })
+      .catch(error => {
+      console.error('Erro ao fazer login:', error);
+      });
+
+      setTimeout(() => {
+
+        console.log(tokenUsuario);
+
+        
+        setCookie('authToken', tokenUsuario, 7); // Armazena o token em um cookie que expira em 7 dias
+
+
+        function irParaLandigpage(){
+        window.location.replace('landingpage.html',500);
+        }
+        irParaLandigpage();
+        
+
+      }, 400);
       }
+      */
+
   </script>
 </body>
 </html>

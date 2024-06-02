@@ -51,14 +51,14 @@
               <input type="checkbox" value="aceito" required> <span>Ao se cadastrar você concorda com os <a href="#">termos de uso</a> desta plataforma</span>
             </div>
             <div class="d-grid mt-2">
-              <button onclick="createUser()" class="">Cadastrar</button>
-              <h1 onclick="createUser()">Cadastraaar</h1>
+              <!--<button onclick="createUser()" class="btn btn-primary">Cadastrar</button>-->
+              <p onclick="createUser()" class="btn btn-primary">Cadastrar</p>
             </div>
           </form>
 
           <br>
 
-          <a href=""><button type="button" class="btn" style="width: 100%;">Já possui uma conta?</button></a>
+          <a href="index"><button type="button" class="btn" style="width: 100%;">Já possui uma conta?</button></a>
         </div>
       </div>
     </div>
@@ -92,6 +92,10 @@
         })
       })
 
+      function IrParaLogin(){
+        window.location.replace('index.html');
+      }
+      //IrParaLogin();
       }
     </script>
 </body>
