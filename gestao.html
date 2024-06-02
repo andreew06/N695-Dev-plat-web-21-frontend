@@ -311,15 +311,10 @@
       atualizarTexto();
     }
     
-        //extrair cookies
-        function getCookie(name){
-      const nameEQ = name + "=";
-      const ca = document.cokie.split(';');
-      for(let i = 0; i < ca.lenght; i++){
-        let c = ca[i];
-        while (c.charAT(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-      }
-      return null;
+    //extrair cookies
+    function getCookie(name){
+      const token = sessionStorage.getItem('authToken')
+      return token ? token : null
     }
 
     //verificação do token

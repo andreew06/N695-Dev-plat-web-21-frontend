@@ -183,22 +183,10 @@
 
     //extrair cookies
     function getCookie(name){
-      const nameEQ = name + "=";
-      const ca = document.cookie.split(';');
-      for(let i = 0; i < ca.lenght; i++){
-        let c = ca[i];
-        console.log(c);
-        var cdebug = c.charAT(nameEQ)
-        console.log(cdebug);
-        while (cdebug === 0){
-          const csub = c.substring(nameEQ.length, c.length);
-          console.log(csub);
-          return csub;
-        }
-      
-      }
-      return null;
+      const token = sessionStorage.getItem('authToken')
+      return token ? token : null
     }
+
     const token = getCookie('authToken');
     //verificação do token
     function checkAuthToken(){
@@ -211,8 +199,7 @@
         console.log('Token válido', token);
       }
     }
-    setTimeout(checkAuthToken, 2000)
-    //document.addEventListener('DOMContentLoaded', checkAuthToken());
+    document.addEventListener('DOMContentLoaded', checkAuthToken());
   </script>
 </body>
 </html>
