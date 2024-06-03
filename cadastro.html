@@ -55,8 +55,7 @@
                   class="form-control"
                   id="createName"
                   placeholder="Seu nome aqui"
-                  required
-                />
+                  />
               </div>
               <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>
@@ -65,8 +64,7 @@
                   class="form-control"
                   id="createEmail"
                   placeholder="exemplo@exemplo.com"
-                  required
-                />
+                  />
               </div>
               <div class="mb-3">
                 <label for="senha" class="form-label">Senha</label>
@@ -75,28 +73,27 @@
                   class="form-control"
                   id="createSenha"
                   placeholder="Digite sua senha"
-                  required
-                />
+                  />
               </div>
               <div class="md-3">
-                <input type="checkbox" value="aceito" required />
-                <span
+                <span 
                   >Ao se cadastrar você concorda com os
-                  <a href="#">termos de uso</a> desta plataforma</span
-                >
+                  <a href="#">termos de uso</a> desta plataforma
+                </span>
               </div>
               <div class="d-grid mt-2">
-                <p onclick="createUser()" class="btn btn-primary">Cadastrar</p>
+                <p class="text-center" id="aviso"></p>
+                <button id="btn_cadastrar" class="btn btn-primary">Cadastrar</button>
               </div>
             </form>
 
             <br />
 
-            <a href="index"
-              ><button type="button" class="btn" style="width: 100%">
+            <a href="index.html">
+              <button class="btn" style="width: 100%">
                 Já possui uma conta?
-              </button></a
-            >
+              </button>
+            </a>
           </div>
         </div>
       </div>
@@ -119,10 +116,46 @@
     ></script>
 
     <script>
-      function createUser() {
+      function irParaLogin(){
+        window.location.replace("index.html");
+      }
+
+      function acionarAvisoErro() {
+        var aviso_login = document.getElementById("aviso");
+        aviso_login.classList.remove('text-success')
+        aviso_login.classList.add('text-danger')
+        aviso_login.innerHTML = "Todos os campos devem ser preenchidos corretamente";
+        function liberarAviso() {
+          aviso_login.innerHTML = "";
+        }
+        setTimeout(liberarAviso, 5000);
+      }
+      function acionarAvisoOk() {
+        var aviso_login = document.getElementById("aviso");
+        aviso_login.classList.remove('text-danger')
+        aviso_login.classList.add('text-success')
+        aviso_login.innerHTML = "Login relizado com sucesso!";
+        function liberarAviso() {
+          aviso_login.innerHTML = "";
+        }
+        setTimeout(liberarAviso, 5000);
+      }
+
+      const btn_cadastrar = document.getElementById('btn_cadastrar')
+
+      btn_cadastrar.addEventListener('click', function(event){
+        event.preventDefault();
+
         const targetName = document.getElementById("createName").value;
         const targetEmail = document.getElementById("createEmail").value;
         const targetSenha = document.getElementById("createSenha").value;
+        
+        //Validar campo de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailResultValid = emailRegex.test(targetEmail);
+
+        //Criar usuário
+        if(emailResultValid && !((targetName === '') || (targetEmail === '') || (targetSenha === ''))){
 
         const body = {
           name: targetName,
@@ -141,7 +174,53 @@
           }),
         });
 
-        window.location.replace("index.html");
+        acionarAvisoOk()
+
+        setTimeout(irParaLogin(), 3000)
+        }else{
+
+          acionarAvisoErro();
+        }
+      })
+
+      function createUser() {
+        event.preventDefault();
+
+        const targetName = document.getElementById("createName").value;
+        const targetEmail = document.getElementById("createEmail").value;
+        const targetSenha = document.getElementById("createSenha").value;
+        
+        //Validar campo de email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailResultValid = emailRegex.test(targetEmail);
+
+        //Criar usuário
+        if(emailResultValid && !((targetName === '') || (targetEmail === '') || (targetSenha === ''))){
+
+        const body = {
+          name: targetName,
+          email: targetEmail,
+          password: targetSenha,
+        };
+        console.log(body);
+
+        fetch(`http://localhost:4000/v1/auth/register`, {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw",
+          }),
+        });
+
+        acionarAvisoOk()
+
+        setTimeout(irParaLogin(), 3000)
+        }else{
+
+          acionarAvisoErro();
+        }
       }
     </script>
   </body>

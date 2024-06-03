@@ -48,7 +48,7 @@
           <div class="p-5 border bg-light col-md-4">
             <h2 class="text-center mt-5">Login</h2>
             <!--formulário de login-->
-            <form action="recebe.html" method="post" id="form-login">
+            <form id="form-login">
               <div class="mb-3">
                 <label for="loginEmail" class="form-label">E-mail</label>
                 <input
@@ -71,8 +71,7 @@
                 <p class="text-danger text-center" id="aviso"></p>
               </div>
               <div class="d-grid">
-                <!--<button onclick="loginUser()" class="btn btn-primary">Entrar</button>-->
-                <p onclick="loginUser()" class="btn btn-primary">Entrar</p>
+                <button id="btn_logar" class="btn btn-primary">Entrar</button>
               </div>
             </form>
             <br />
@@ -104,6 +103,7 @@
 
     <script>
       function acionarAviso() {
+
         var aviso_login = document.getElementById("aviso");
         aviso_login.innerHTML = "Cheque se suas credenciais estão corretas";
         function liberarAviso() {
@@ -116,8 +116,11 @@
         sessionStorage.setItem("authToken", value);
       }
 
-      //função de login2
-      async function loginUser() {
+      
+      const btn_logar = document.getElementById('btn_logar');
+      
+      btn_logar.addEventListener('click', async function(event){
+        event.preventDefault()
         const targetEmail = document.getElementById("loginEmail").value;
         const targetSenha = document.getElementById("loginSenha").value;
 
@@ -151,7 +154,7 @@
           console.error("Erro ao fazer login:", error);
           acionarAviso();
         }
-      }
+      })
     </script>
   </body>
 </html>

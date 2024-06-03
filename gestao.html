@@ -232,7 +232,7 @@
         var navbarToggler = document.querySelector(".navbar-toggler");
         var navbarCollapse = document.querySelector("#navbarNav");
 
-        navbarToggler.addEventListener("click", function () {
+          navbarToggler.addEventListener("click", function () {
           navbarCollapse.classList.toggle("show");
         });
       });
@@ -346,7 +346,6 @@
           email: targetemail,
           password: targetpass,
         };
-        console.log(body);
 
         fetch(`http://localhost:4000/v1/users/${targetid}`, {
           method: "PATCH",
@@ -373,8 +372,8 @@
           }),
           method: "DELETE",
         });
-
         atualizarTexto();
+        buscardados();
       }
 
       //extrair cookies
