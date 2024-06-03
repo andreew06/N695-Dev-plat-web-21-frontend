@@ -1,102 +1,148 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <style>
-      @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-      h1, h2{
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+      h1,
+      h2 {
         font-family: "Roboto", sans-serif;
         font-weight: 300;
         font-style: normal;
       }
-      p,label{
+      p,
+      label {
         font-family: "Roboto", sans-serif;
         font-weight: 400;
         font-style: normal;
       }
 
-      html, body {
+      html,
+      body {
         height: 100%;
         background-color: azure;
       }
       .full-height {
         height: 100vh;
       }
-  </style>
-</head>
-<body>
-  <div class="bg-image" style="background-image: url('img/Odonto+.png'); height: 100vh;">
-    <div class="container">
-      <div class="d-flex justify-content-center align-items-center full-height">
-        <div class="p-5 border bg-light col-md-6">
-          <h2 class="text-center mt-5">Cadastro</h2>
+    </style>
+  </head>
+  <body>
+    <div
+      class="bg-image"
+      style="background-image: url('img/Odonto+.png'); height: 100vh"
+    >
+      <div class="container">
+        <div
+          class="d-flex justify-content-center align-items-center full-height"
+        >
+          <div class="p-5 border bg-light col-md-6">
+            <h2 class="text-center mt-5">Cadastro</h2>
 
-          <form id="form-login">
-            <div class="mb-3">
-              <label for="nome" class="form-label">Nome</label>
-              <input type="text" class="form-control" id="createName" placeholder="Seu nome aqui" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">E-mail</label>
-              <input type="email" class="form-control" id="createEmail" placeholder="exemplo@exemplo.com" required>
-            </div>
-            <div class="mb-3">
-              <label for="senha" class="form-label">Senha</label>
-              <input type="password" class="form-control" id="createSenha" placeholder="Digite sua senha" required>
-            </div>
-            <div class="md-3">
-              <input type="checkbox" value="aceito" required> <span>Ao se cadastrar você concorda com os <a href="#">termos de uso</a> desta plataforma</span>
-            </div>
-            <div class="d-grid mt-2">
-              <!--<button onclick="createUser()" class="btn btn-primary">Cadastrar</button>-->
-              <p onclick="createUser()" class="btn btn-primary">Cadastrar</p>
-            </div>
-          </form>
+            <form id="form-login">
+              <div class="mb-3">
+                <label for="nome" class="form-label">Nome</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="createName"
+                  placeholder="Seu nome aqui"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="email" class="form-label">E-mail</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="createEmail"
+                  placeholder="exemplo@exemplo.com"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label for="senha" class="form-label">Senha</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="createSenha"
+                  placeholder="Digite sua senha"
+                  required
+                />
+              </div>
+              <div class="md-3">
+                <input type="checkbox" value="aceito" required />
+                <span
+                  >Ao se cadastrar você concorda com os
+                  <a href="#">termos de uso</a> desta plataforma</span
+                >
+              </div>
+              <div class="d-grid mt-2">
+                <p onclick="createUser()" class="btn btn-primary">Cadastrar</p>
+              </div>
+            </form>
 
-          <br>
+            <br />
 
-          <a href="index"><button type="button" class="btn" style="width: 100%;">Já possui uma conta?</button></a>
+            <a href="index"
+              ><button type="button" class="btn" style="width: 100%">
+                Já possui uma conta?
+              </button></a
+            >
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+      integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+      integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+      crossorigin="anonymous"
+    ></script>
+
     <script>
-      function createUser(){
-        const targetName = document.getElementById('createName').value;
-        const targetEmail = document.getElementById('createEmail').value;
-        const targetSenha = document.getElementById('createSenha').value;
+      function createUser() {
+        const targetName = document.getElementById("createName").value;
+        const targetEmail = document.getElementById("createEmail").value;
+        const targetSenha = document.getElementById("createSenha").value;
 
         const body = {
-          "name": targetName,
-          "email": targetEmail,
-          "password": targetSenha
-        }
+          name: targetName,
+          email: targetEmail,
+          password: targetSenha,
+        };
         console.log(body);
 
-        
-
-      fetch(`http://localhost:4000/v1/auth/register`,{
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: new Headers({
+        fetch(`http://localhost:4000/v1/auth/register`, {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: new Headers({
             "Content-Type": "application/json",
-            'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw"
-        })
-      })
+            Authorization:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjViNzI0ZjkyOGUzNmVjMjI1M2M2YTYiLCJlbWFpbCI6InZpbmkxOUBlbWFpbC5jb20iLCJpYXQiOjE3MTcyNjkwNzYsImV4cCI6MTcxNzQ0MTg3Nn0.OFTaXKkbQjsn-WJWbogGy0bQLj0HK14EICAL1FtKEfw",
+          }),
+        });
 
-      function IrParaLogin(){
-        window.location.replace('index.html');
-      }
-      //IrParaLogin();
+        window.location.replace("index.html");
       }
     </script>
-</body>
+  </body>
 </html>
